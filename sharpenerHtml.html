@@ -26,16 +26,21 @@
       <li class="list-group-item">Item 2</li>
       <li class="list-group-item">Item 3</li>
       <li class="list-group-item">Item 4</li>
+      <li class="new">Item 5</li>
     </ul>
    </div>
   </div>
- <script >
-  let items = document.getElementsByClassName("list-group-item")
+  <script>
+    let items = document.getElementsByClassName("list-group-item")
   items[2].style.backgroundColor = "green"
   for( let i=0; i<items.length;i++) {
     items[i].style.fontWeight = "bold"
   }
-
- </script>
+  let newElement = document.getElementsByClassName("new")
+  newElement[0].style.color="red"
+  
+  let tagElement = document.getElementsByTagName("li")
+  tagElement[4].style.backgroundColor="yellow"
+    </script>
 </body>
 </html>
