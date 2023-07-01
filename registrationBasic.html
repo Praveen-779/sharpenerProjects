@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>registration form</title>
+    <style>
+        fieldset {
+            width:50%;
+            margin:0 auto;
+            background-color:white;
+        }
+        
+        a {
+            border:2px solid orangered;
+            color:white;
+        }
+        div {
+            text-align:right;
+        }
+    </style>
+    
+</head>
+<body>
+    <form action="#" onsubmit="saveToLocalStorage(event)">
+        <div>
+        <a href="#">Schedule a call</a>
+        <a href="#">Hire with us</a>
+    </div>
+        <fieldset>
+            <center><h2 style="color:rgb(245, 99, 9)"><strong>Book a call</strong></h2>
+            <p>book a call slot and our representative will call you within 1hr of selected time.</p></center>
+            <hr>
+            <label for="name" >Name:</label><br>
+            <input type="text" id="name" style="width:100%" placeholder="ex:praveen" required name="username">
+            <br>
+            <br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" style="width:100%" placeholder="ex:abc@gmail.com" name="email" required checked>
+            <br>
+            <br>
+            <label for="phone">Phone:</label>
+            <input type="tel" style="width:100%" id="phone" placeholder="ex:9999999999" name="mobile" required checked minlength="10">
+            <br>
+            <br>
+            <label for="time">Time for call:</label><br>
+            <input type="date" id="date" style="width:49%" name="date">
+            <input type="time" id="time" style="width:49%" name="time">
+            <br>
+            <br>
+            <input type="submit" name="submit" value="SUBMIT" style="width:100%; background-color:rgb(231, 112, 14); color:white"> 
+        </fieldset>
+    </form>
+
+    <script>
+     
+        function saveToLocalStorage(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Get the form input values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            
+            localStorage.setItem('name',name)
+            localStorage.setItem('Email',email)
+            localStorage.setItem('phone',phone)
+            localStorage.setItem('Date',date)
+            localStorage.setItem('TIME',time)
+            
+            // Store the user details in local storage
+            localStorage.setItem('userDetails', userDetails);
+            
+            // Optional: Show a confirmation message
+            alert('User details stored in local storage');
+        }
+    </script>
+</body>
+</html>
