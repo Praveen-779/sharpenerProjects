@@ -2,60 +2,42 @@
 <html lang="en">
 <head>
     <title>registration form</title>
-    <style>
-        fieldset {
-            width:50%;
-            margin:0 auto;
-            background-color:white;
-        }
-        
-        a {
-            border:2px solid orangered;
-            color:white;
-        }
-        div {
-            text-align:right;
-        }
-    </style>
-    
 </head>
 <body>
-    <form action="#" onsubmit="saveToLocalStorage(event)">
-        <div>
-        <a href="#">Schedule a call</a>
-        <a href="#">Hire with us</a>
+    <div style="background-color: grey">
+        <form action="#" onsubmit="saveToLocalStorage(event)">
+            <fieldset>
+                <center>
+                    <h2 style="color:rgb(245, 99, 9)"><strong>Book a call</strong></h2>
+                    <p>book a call slot and our representative will call you within 1hr of selected time.</p>
+                </center>
+                <hr>
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" style="width:100%" placeholder="ex:praveen" required name="username">
+                <br><br>
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" style="width:100%" placeholder="ex:abc@gmail.com" name="email" required checked>
+                <br><br>
+                <label for="phone">Phone:</label>
+                <input type="tel" style="width:100%" id="phone" placeholder="ex:9999999999" name="mobile" required checked minlength="10">
+                <br><br>
+                <label for="time">Time for call:</label><br>
+                <input type="date" id="date" style="width:49%" name="date">
+                <input type="time" id="time" style="width:49%" name="time">
+                <br><br>
+                <input type="submit" name="submit" value="SUBMIT" style="width:100%; background-color:rgb(231, 112, 14); color:white"> 
+            </fieldset>
+        </form>
     </div>
-        <fieldset>
-            <center><h2 style="color:rgb(245, 99, 9)"><strong>Book a call</strong></h2>
-            <p>book a call slot and our representative will call you within 1hr of selected time.</p></center>
-            <hr>
-            <label for="name" >Name:</label><br>
-            <input type="text" id="name" style="width:100%" placeholder="ex:praveen" required name="username">
-            <br>
-            <br>
-            <label for="email">Email:</label><br>
-            <input type="email" id="email" style="width:100%" placeholder="ex:abc@gmail.com" name="email" required checked>
-            <br>
-            <br>
-            <label for="phone">Phone:</label>
-            <input type="tel" style="width:100%" id="phone" placeholder="ex:9999999999" name="mobile" required checked minlength="10">
-            <br>
-            <br>
-            <label for="time">Time for call:</label><br>
-            <input type="date" id="date" style="width:49%" name="date">
-            <input type="time" id="time" style="width:49%" name="time">
-            <br>
-            <br>
-            <input type="submit" name="submit" value="SUBMIT" style="width:100%; background-color:rgb(231, 112, 14); color:white"> 
-        </fieldset>
-    </form>
+    <div id="userDetails">
+        <p ></p>
+    </div>
 
     <script>
-     
-     function saveToLocalStorage(event) {
+        function saveToLocalStorage(event) {
             event.preventDefault(); // Prevent form submission
             
-            // Get the form input values
+ 
             const name = event.target.username.value;
             const email = event.target.email.value;
             const phone = event.target.phone.value;
@@ -69,7 +51,20 @@
                 date: date,
                 time: time
             };
-            localStorage.setItem('userDetails',JSON.stringify(userDetails))
+            localStorage.setItem(email, JSON.stringify(userDetails));
+           
+            // Display the user details on the screen
+             displayUserDetails(name, email, phone, date, time);
+        }
+
+            function displayUserDetails(name, email, phone, date, time) {
+            const userDetailsDiv = document.getElementById("userDetails");
+
+            const userDetailsParagraph = document.createElement("p");
+            userDetailsParagraph.innerHTML = "Name: " + name + "<br>Email: " + email + "<br>Phone: " + phone + "<br>Date: " + date + "<br>Time: " + time;
+
+            userDetailsDiv.appendChild(userDetailsParagraph);
+        
         }
     </script>
 </body>
