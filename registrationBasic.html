@@ -4,7 +4,7 @@
     <title>registration form</title>
 </head>
 <body>
-    <div style="background-color: grey">
+    <div>
         <form action="#" onsubmit="saveToLocalStorage(event)">
             <fieldset>
                 <center>
@@ -13,13 +13,13 @@
                 </center>
                 <hr>
                 <label for="name">Name:</label><br>
-                <input type="text" id="name" style="width:100%" placeholder="ex:praveen" required name="username" value="praveen">
+                <input type="text" id="name" style="width:100%" placeholder="ex:praveen" required name="username" >
                 <br><br>
                 <label for="email">Email:</label><br>
-                <input type="email" id="email" style="width:100%" placeholder="ex:abc@gmail.com" name="email" required checked value="praveenpravi@gmail.com">
+                <input type="email" id="email" style="width:100%" placeholder="ex:abc@gmail.com" name="email" required checked >
                 <br><br>
                 <label for="phone">Phone:</label>
-                <input type="tel" style="width:100%" id="phone" placeholder="ex:9999999999" name="mobile" required checked minlength="10" value="7829673552">
+                <input type="tel" style="width:100%" id="phone" placeholder="ex:9999999999" name="mobile" required checked minlength="10" >
                 <br><br>
                 <label for="time">Time for call:</label><br>
                 <input type="date" id="date" style="width:49%" name="date">
@@ -57,25 +57,51 @@
         }
 
         function displayUserDetails(name, email, phone, date, time) {
-            const userDetailsDiv = document.getElementById("userDetails");
+    const userDetailsDiv = document.getElementById("userDetails");
 
-            const userDetailsParagraph = document.createElement("p");
-            const deleteButton = document.createElement("button");
+    const userDetailsParagraph = document.createElement("p");
+    const deleteButton = document.createElement("button");
+    const editButton = document.createElement("button");
 
-            userDetailsParagraph.innerHTML = "Name: " + name + "<br>Email: " + email + "<br>Phone: " + phone + "<br>Date: " + date + "<br>Time: " + time;
-            deleteButton.textContent = "Delete";
-            deleteButton.addEventListener("click", function() {
-                // Remove data from local storage
-                localStorage.removeItem(email);
-                
-                // Remove the user details from the UI
-                userDetailsDiv.removeChild(userDetailsParagraph);
-                 
-            });
+    userDetailsParagraph.innerHTML = "Name: " + name + "<br>Email: " + email + "<br>Phone: " + phone + "<br>Date: " + date + "<br>Time: " + time;
+    deleteButton.textContent = "Delete";
+    editButton.textContent = "Edit";
 
-            userDetailsDiv.appendChild(userDetailsParagraph);
-            userDetailsDiv.appendChild(deleteButton);
-        }
+    deleteButton.addEventListener("click", function() {
+        // Remove data from local storage
+        localStorage.removeItem(email);
+        
+        // Remove the user details from the UI
+        userDetailsDiv.removeChild(userDetailsParagraph);
+        userDetailsDiv.removeChild(deleteButton);
+        userDetailsDiv.removeChild(editButton);
+    });
+
+    editButton.addEventListener("click", function() {
+        // Retrieve the user details from local storage
+        const userDetails = JSON.parse(localStorage.getItem(email));
+
+        // Populate the form with the user details for editing
+        document.getElementById("name").value = userDetails.name;
+        document.getElementById("email").value = userDetails.email;
+        document.getElementById("phone").value = userDetails.phone;
+        document.getElementById("date").value = userDetails.date;
+        document.getElementById("time").value = userDetails.time;
+
+        // Remove the user details from local storage
+        localStorage.removeItem(email);
+        
+        // Remove the user details from the UI
+        userDetailsDiv.removeChild(userDetailsParagraph);
+        userDetailsDiv.removeChild(deleteButton);
+        userDetailsDiv.removeChild(editButton);
+    });
+
+    userDetailsDiv.appendChild(userDetailsParagraph);
+    userDetailsDiv.appendChild(deleteButton);
+    userDetailsDiv.appendChild(editButton);
+}
+
     </script>
 </body>
 </html
