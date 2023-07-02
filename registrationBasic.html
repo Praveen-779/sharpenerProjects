@@ -13,13 +13,13 @@
                 </center>
                 <hr>
                 <label for="name">Name:</label><br>
-                <input type="text" id="name" style="width:100%" placeholder="ex:praveen" required name="username">
+                <input type="text" id="name" style="width:100%" placeholder="ex:praveen" required name="username" value="praveen">
                 <br><br>
                 <label for="email">Email:</label><br>
-                <input type="email" id="email" style="width:100%" placeholder="ex:abc@gmail.com" name="email" required checked>
+                <input type="email" id="email" style="width:100%" placeholder="ex:abc@gmail.com" name="email" required checked value="praveenpravi@gmail.com">
                 <br><br>
                 <label for="phone">Phone:</label>
-                <input type="tel" style="width:100%" id="phone" placeholder="ex:9999999999" name="mobile" required checked minlength="10">
+                <input type="tel" style="width:100%" id="phone" placeholder="ex:9999999999" name="mobile" required checked minlength="10" value="7829673552">
                 <br><br>
                 <label for="time">Time for call:</label><br>
                 <input type="date" id="date" style="width:49%" name="date">
@@ -30,14 +30,13 @@
         </form>
     </div>
     <div id="userDetails">
-        <p ></p>
+        
     </div>
 
     <script>
         function saveToLocalStorage(event) {
             event.preventDefault(); // Prevent form submission
-            
- 
+
             const name = event.target.username.value;
             const email = event.target.email.value;
             const phone = event.target.phone.value;
@@ -54,18 +53,29 @@
             localStorage.setItem(email, JSON.stringify(userDetails));
            
             // Display the user details on the screen
-             displayUserDetails(name, email, phone, date, time);
+            displayUserDetails(name, email, phone, date, time);
         }
 
-            function displayUserDetails(name, email, phone, date, time) {
+        function displayUserDetails(name, email, phone, date, time) {
             const userDetailsDiv = document.getElementById("userDetails");
 
             const userDetailsParagraph = document.createElement("p");
+            const deleteButton = document.createElement("button");
+
             userDetailsParagraph.innerHTML = "Name: " + name + "<br>Email: " + email + "<br>Phone: " + phone + "<br>Date: " + date + "<br>Time: " + time;
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", function() {
+                // Remove data from local storage
+                localStorage.removeItem(email);
+                
+                // Remove the user details from the UI
+                userDetailsDiv.removeChild(userDetailsParagraph);
+                 
+            });
 
             userDetailsDiv.appendChild(userDetailsParagraph);
-        
+            userDetailsDiv.appendChild(deleteButton);
         }
     </script>
 </body>
-</html>
+</html
