@@ -52,27 +52,24 @@
 
     <script>
      
-        function saveToLocalStorage(event) {
+     function saveToLocalStorage(event) {
             event.preventDefault(); // Prevent form submission
             
             // Get the form input values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const date = document.getElementById('date').value;
-            const time = document.getElementById('time').value;
+            const name = event.target.username.value;
+            const email = event.target.email.value;
+            const phone = event.target.phone.value;
+            const date = event.target.date.value;
+            const time = event.target.time.value;
             
-            localStorage.setItem('name',name)
-            localStorage.setItem('Email',email)
-            localStorage.setItem('phone',phone)
-            localStorage.setItem('Date',date)
-            localStorage.setItem('TIME',time)
-            
-            // Store the user details in local storage
-            localStorage.setItem('userDetails', userDetails);
-            
-            // Optional: Show a confirmation message
-            alert('User details stored in local storage');
+            var userDetails = {
+                name: name,
+                email: email,
+                phone: phone,
+                date: date,
+                time: time
+            };
+            localStorage.setItem('userDetails',JSON.stringify(userDetails))
         }
     </script>
 </body>
