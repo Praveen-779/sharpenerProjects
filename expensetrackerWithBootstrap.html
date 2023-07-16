@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+ <div id="form">
+  <form onsubmit="saveToLocalStorage(event)">
+    <label for="chooseExpenseAmount"> Choose Expense Amount :</label>
+    <input type="text" id="chooseExpenseAmount">
+    <br>
+    <br>
+    <label for="chooseDescription">Choose Description</label>
+    <input type="text" id="chooseDescription">
+    <br>
+    <br>
+    <label for="chooseACategory">Choose A Category :</label>
+    <select id="chooseACategory">
+        <option value="food">Food</option>
+        <option value="fuel">Fuel</option>
+        <option value="movie">Movie</option>
+        <option value="shopping">Shopping</option>
+    </select>
+    <br>
+    <br>
+    <input type="submit" value="Add Expense">
+  </form>
+</div>
+<div id="displayExpense">
+
+</div>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+   function saveToLocalStorage(event) {
+        event.preventDefault();
+        let expense = document.getElementById('chooseExpenseAmount').value;
+        let description = document.getElementById('chooseDescription').value;
+        let category = document.getElementById('chooseACategory').value;
+        
+        let userExpense = {
+            expense, description, category
+        };
+        localStorage.setItem(expense, JSON.stringify(userExpense));
+        
+
+        document.getElementById('chooseExpenseAmount').value='';
+        document.getElementById('chooseDescription').value='';
+        document.getElementById('chooseACategory').value='';
+
+        let displayDiv = document.getElementById('displayExpense');
+        let para = document.createElement('p');
+        para.textContent = 'Expense: ' + expense + ' Description: ' + description + ' Category: ' + category;
+        displayDiv.appendChild(para);
+
+        let editButton = document.createElement('button');
+        editButton.textContent = 'Edit Expense';
+        para.appendChild(editButton);
+        editButton.addEventListener('click', function() {
+            deleteExpense(expense);
+            displayDiv.removeChild(para);
+            populateFormFields(userExpense);
+        });
+
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete Expense';
+        para.appendChild(deleteButton);
+        deleteButton.addEventListener('click', function() {
+            deleteExpense(userExpense.expense);
+            displayDiv.removeChild(para);
+        });
+    }
+
+    window.onload = function() {
+        for(let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            let userExpense = JSON.parse(localStorage.getItem(key));
+            displayExpense(userExpense, key);
+        }
+    };
+
+    function displayExpense(userExpense, key) {
+        let displayDiv = document.getElementById('displayExpense');
+        let para = document.createElement('p');
+        para.textContent = 'Expense: ' + userExpense.expense + ' Description: ' + userExpense.description + ' Category: ' + userExpense.category;
+        displayDiv.appendChild(para);
+
+        let editButton = document.createElement('button');
+        editButton.textContent = 'Edit Expense';
+        para.appendChild(editButton);
+        editButton.addEventListener('click', function() {
+            deleteExpense(userExpense.expense);
+            displayDiv.removeChild(para);
+            populateFormFields(userExpense);
+        });
+
+        let deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete Expense';
+        para.appendChild(deleteButton);
+        deleteButton.addEventListener('click', function() {
+            deleteExpense(userExpense.expense);
+            displayDiv.removeChild(para);
+        });
+        
+        
+    }
+
+    function deleteExpense(expense) {
+        localStorage.removeItem(expense);
+    }
+
+    function populateFormFields(userExpense) {
+        document.getElementById('chooseExpenseAmount').value = userExpense.expense;
+        document.getElementById('chooseDescription').value = userExpense.description;
+        document.getElementById('chooseACategory').value = userExpense.category;
+    }
+</script>
