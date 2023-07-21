@@ -10,11 +10,11 @@
  <div id="form">
   <form onsubmit="saveToLocalStorage(event)">
     <label for="chooseExpenseAmount"> Choose Expense Amount :</label>
-    <input type="text" id="chooseExpenseAmount">
+    <input type="text" id="chooseExpenseAmount" required>
     <br>
     <br>
     <label for="chooseDescription">Choose Description</label>
-    <input type="text" id="chooseDescription">
+    <input type="text" id="chooseDescription" required>
     <br>
     <br>
     <label for="chooseACategory">Choose A Category :</label>
@@ -35,7 +35,7 @@
 </body>
 </html>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
    function saveToLocalStorage(event) {
@@ -47,7 +47,14 @@
         let userExpense = {
             expense, description, category
         };
-        localStorage.setItem(expense, JSON.stringify(userExpense));
+        axios.post("https://crudcrud.com/api/2e1ebabbf971434487bf1c305fafc177/expenseTracker",userExpense)
+        .then((data)=> {
+            console.log(data);
+        })
+        .catch((err)=> {
+            console.log(err);
+        })
+        
         
 
         document.getElementById('chooseExpenseAmount').value='';
