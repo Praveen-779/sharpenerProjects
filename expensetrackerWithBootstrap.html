@@ -94,17 +94,18 @@
         let editButton = document.createElement('button');
         editButton.textContent = 'Edit Expense';
         para.appendChild(editButton);
-        editButton.addEventListener('click', function() {
-            deleteExpense(userExpense._id); // Assuming _id is used as the unique identifier in the cloud API
-            displayDiv.removeChild(para);
-            populateFormFields(userExpense);
-        });
 
         let deleteButton = document.createElement('button');
         deleteButton.textContent = 'Delete Expense';
         para.appendChild(deleteButton);
+
+        
+        editButton.addEventListener('click', function() {
+            
+        });
+
         deleteButton.addEventListener('click', function() {
-            deleteExpense(userExpense._id); // Assuming _id is used as the unique identifier in the cloud API
+            deleteExpense(userExpense._id); 
             displayDiv.removeChild(para);
         });
     }
@@ -117,11 +118,5 @@
             .catch((error) => {
                 console.log(error);
             });
-    }
-
-    function populateFormFields(userExpense) {
-        document.getElementById('chooseExpenseAmount').value = userExpense.expense;
-        document.getElementById('chooseDescription').value = userExpense.description;
-        document.getElementById('chooseACategory').value = userExpense.category;
     }
 </script>
