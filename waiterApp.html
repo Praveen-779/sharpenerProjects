@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WaiterApp</title>
+</head>
+<body>
+    <form onsubmit="saveToCloud(event)">
+        <label for="choosePrice">Choose Price : </label>
+        <input type="text" id="choosePrice">
+        <label for="chooseDish">Choose Dish : </label>
+        <input type="text" id="chooseDish">
+        <label for="table">Choose a Table : </label>
+        <select id="table">
+            <option value="table 1" id="t1">Table 1</option>
+            <option value="table 2" id="t2">Table 2</option>
+            <option value="table 3" id="t3">Table 3</option>
+        </select>
+        <input type="submit" value="Add to bill">
+    </form>
+    <h1>Orders</h1>
+    <div id="table1">
+        <h2>Table 1</h2>
+        <ul id="table1Orders"></ul>
+    </div>
+    <div id="table2">
+        <h2>Table 2</h2>
+        <ul id="table2Orders"></ul>
+    </div>
+    <div id="table3">
+        <h2>Table 3</h2>
+        <ul id="table3Orders"></ul>
+    </div>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+// Function to save order to the cloud
+        function saveToCloud(event) {
+        event.preventDefault();
+        let price = document.getElementById('choosePrice').value;
+        let dish = document.getElementById('chooseDish').value;
+        let table = document.getElementById('table').value;
+
+        let order = {
+            price,
+            dish,
+            table
+        };
+
+        axios.post("https://crudcrud.com/api/f5d79f8758d147e48c7697881ac51c16/waiterApp", order)
+            .then((response) => {
+                //console.log(response.data);
+                fetchDataFromCloud(); 
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+
+        document.getElementById('choosePrice').value = '';
+        document.getElementById('chooseDish').value = '';
+        document.getElementById('table').value = '';
+    }
+
+
+
+   
+    function fetchDataFromCloud() {
+        axios.get("https://crudcrud.com/api/f5d79f8758d147e48c7697881ac51c16/waiterApp")
+            .then((response) => {
+                const orders = response.data;
+                displayOrders(orders);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    // Function to display orders in their respective divs
+    function displayOrders(orders) {
+        const table1Orders = document.getElementById("table1Orders");
+        const table2Orders = document.getElementById("table2Orders");
+        const table3Orders = document.getElementById("table3Orders");
+
+        // Clear previous orders
+        table1Orders.innerHTML = "";
+        table2Orders.innerHTML = "";
+        table3Orders.innerHTML = "";
+
+        for (let i = 0; i < orders.length; i++) {
+            const order = orders[i];
+            const listItem = document.createElement("li");
+            listItem.textContent = `Price: ${order.price}, Dish: ${order.dish}`;
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Delete Order";
+            deleteButton.addEventListener("click", () => {
+                deleteOrder(order._id); // Call the function to delete the order
+            });
+
+            listItem.appendChild(deleteButton);
+
+            switch (order.table) {
+                case "table 1":
+                    table1Orders.appendChild(listItem);
+                    break;
+                case "table 2":
+                    table2Orders.appendChild(listItem);
+                    break;
+                case "table 3":
+                    table3Orders.appendChild(listItem);
+                    break;
+                default:
+                    break;
+             }
+        }
+    }
+
+    // Function to delete an order from the cloud
+    function deleteOrder(orderId) {
+        axios.delete(`https://crudcrud.com/api/f5d79f8758d147e48c7697881ac51c16/waiterApp/${orderId}`)
+            .then((response) => {
+                console.log(response.data);
+                fetchDataFromCloud(); 
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    
+    fetchDataFromCloud();
+</script>
